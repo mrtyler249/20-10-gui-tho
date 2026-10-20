@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gửi người của mình 🌸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --plum: #5A2A3D;
+    --deep: #C9456F;
+    --rose: #E57F9E;
+    --soft: #F7CDD8;
+    --sage: #86A184;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { background: #FFE6EE; }
+  body {
+    min-height: 100vh;
+    font-family: "Be Vietnam Pro", system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--plum);
+    background:
+      radial-gradient(ellipse 60% 30% at 18% 14%, rgba(255,255,255,.75), transparent 70%),
+      radial-gradient(ellipse 50% 24% at 84% 34%, rgba(255,255,255,.6), transparent 70%),
+      linear-gradient(180deg, #FFD3E1 0%, #FFE6EE 45%, #FFF5F8 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+  .petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .petal {
+    position: absolute; top: -30px;
+    width: 14px; height: 18px;
+    background: var(--soft);
+    border-radius: 80% 0 80% 0;
+    opacity: .75;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    from { transform: translate3d(0,-30px,0) rotate(0deg); }
+    to   { transform: translate3d(var(--dx), 108vh, 0) rotate(540deg); }
+  }
+
+  main {
+    position: relative; z-index: 1;
+    width: min(620px, 100% - 32px);
+    margin: 40px auto 24px;
+    padding: 48px 32px 40px;
+    text-align: center;
+    background: rgba(255,255,255,.62);
+    border: 1px solid rgba(255,255,255,.9);
+    border-radius: 28px;
+    box-shadow: 0 20px 60px rgba(201,69,111,.14);
+    backdrop-filter: blur(6px);
+  }
+  .kicker { font-size: .95rem; color: var(--deep); }
+  .flower { width: 190px; margin: 22px auto 10px; }
+  .flower svg { width: 100%; display: block; overflow: visible; }
+  h1 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2.4rem, 8vw, 3.4rem);
+    line-height: 1.15;
+    color: var(--plum);
+  }
+  h2 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic; font-weight: 400;
+    font-size: clamp(1.3rem, 4.5vw, 1.7rem);
+    color: var(--deep);
+    margin-top: 6px;
+  }
+  .date { margin-top: 14px; font-size: .95rem; letter-spacing: .02em; }
+  .rule { width: 56px; height: 2px; margin: 28px auto; background: var(--soft); border: 0; }
+  .intro {
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic; font-size: 1.2rem; color: var(--deep);
+  }
+  .body p { margin-top: 16px; }
+  button.open {
+    margin-top: 32px;
+    font: inherit; font-weight: 400;
+    color: #fff; background: var(--deep);
+    border: 0; border-radius: 999px;
+    padding: 14px 30px; cursor: pointer;
+    box-shadow: 0 8px 22px rgba(201,69,111,.3);
+    transition: transform .2s, background .2s;
+  }
+  button.open:hover { background: #B53A62; transform: translateY(-2px); }
+  button.open:focus-visible { outline: 3px solid var(--plum); outline-offset: 3px; }
+  button.open[aria-expanded="true"] { display: none; }
+
+  .surprise { display: none; margin-top: 36px; }
+  .surprise.show { display: block; }
+  .surprise h3 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic; font-weight: 400; font-size: 1.4rem; color: var(--deep);
+    opacity: 0;
+  }
+  .surprise.show h3 { animation: fade 1s .2s forwards; }
+  .surprise .last { margin-top: 12px; opacity: 0; }
+  .surprise.show .last { animation: fade 1s 1.8s forwards; }
+  @keyframes fade { to { opacity: 1; } }
+
+  .tulips { margin: 26px auto 0; max-width: 420px; }
+  .tulips svg { width: 100%; display: block; overflow: visible; }
+  .tulip { transform-origin: center bottom; transform-box: fill-box; transform: scaleY(0); }
+  .surprise.show .tulip { animation: grow 1.1s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--i) * .18s + .3s); }
+  @keyframes grow { to { transform: scaleY(1); } }
+
+  footer { position: relative; z-index: 1; text-align: center; font-size: .85rem; padding: 8px 16px 32px; color: var(--plum); opacity: .8; }
+
+  @media (max-width: 480px) { main { padding: 36px 20px 32px; margin-top: 20px; } }
+  @media (prefers-reduced-motion: reduce) {
+    .petals { display: none; }
+    .tulip { transform: none; animation: none !important; }
+    .surprise h3, .surprise .last { opacity: 1; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="petals" id="petals" aria-hidden="true"></div>
+
+<main>
+  <p class="kicker">Một khu vườn nhỏ, làm riêng cho <span class="name">Thỏ</span></p>
+
+  <div class="flower">
+    <svg id="peony" viewBox="-210 -210 420 420" role="img" aria-label="Một bông mẫu đơn hồng">
+      <g id="leaves"></g><g id="rings"></g>
+    </svg>
+  </div>
+
+  <h1>Chúc mừng 20/10</h1>
+  <h2>gửi bạn nhỏ</h2>
+  <p class="date">Ngày 20 tháng 10 · Ngày của <span class="name">Thỏ</span></p>
+
+  <hr class="rule">
+
+  <p class="intro">Gửi người làm cho thế giới của mình dịu dàng hơn…</p>
+
+  <div class="body">
+    <p>Hôm nay là ngày của <span class="name">Thỏ</span>. Mong năm nay có thật nhiều khoảnh khắc nhỏ làm Thỏ mỉm cười, những điều mong ước thành hiện thực, và đủ yêu thương để trái tim luôn đầy.</p>
+    <p>Như mẫu đơn nở rộ, mong Thỏ luôn nhớ rằng mình xinh đẹp, quý giá và được yêu thương rất nhiều. 🌸</p>
+  </div>
+
+  <button class="open" id="open" aria-expanded="false" aria-controls="surprise">Mở món quà nhỏ 💗</button>
+
+  <section class="surprise" id="surprise">
+    <h3>Còn một điều nữa…</h3>
+    <div class="tulips">
+      <svg viewBox="0 0 420 200" role="img" aria-label="Năm bông tulip hồng">
+        <defs>
+          <symbol id="tulip" viewBox="0 0 60 220">
+            <path d="M30 220 C30 170 30 130 30 92" stroke="#86A184" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M30 220 C8 200 6 150 12 118 C24 140 32 180 30 220Z" fill="#9DB79B"/>
+            <path d="M30 220 C54 206 56 164 50 136 C38 156 30 186 30 220Z" fill="#86A184"/>
+            <path d="M30 100 C8 92 4 54 12 28 C24 40 30 64 30 100Z" fill="var(--t2)"/>
+            <path d="M30 100 C52 92 56 54 48 28 C36 40 30 64 30 100Z" fill="var(--t2)"/>
+            <path d="M30 102 C14 94 12 58 30 20 C48 58 46 94 30 102Z" fill="var(--t1)"/>
+          </symbol>
+        </defs>
+        <g id="row"></g>
+      </svg>
+    </div>
+    <p class="last">Dù sau này thế nào, mong ngày 20/10 luôn nhắc <span class="name">Thỏ</span> nhớ rằng mình đặc biệt đến nhường nào. Chúc mừng ngày của Thỏ, bạn nhỏ. ♡</p>
+  </section>
+</main>
+
+<footer>Làm bằng tình yêu, bầu trời hồng và hoa mẫu đơn ♥</footer>
+
+<script>
+  // Đổi tên ở đây nếu muốn
+  var NAME = "Thỏ";
+  document.querySelectorAll(".name").forEach(function (n) { n.textContent = NAME; });
+
+  var NS = "http://www.w3.org/2000/svg";
+  function el(name, attrs, parent) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  // Mẫu đơn
+  var leaves = document.getElementById("leaves");
+  [[-62, "#9DB79B"], [58, "#86A184"], [180, "#9DB79B"]].forEach(function (l) {
+    var g = el("g", { transform: "rotate(" + l[0] + ")" }, leaves);
+    el("path", { d: "M0 0 C-42 -60 -36 -170 0 -205 C36 -170 42 -60 0 0Z", fill: l[1], opacity: .9 }, g);
+  });
+  function petalPath(w, h) {
+    return "M0 0 C" + (-w) + " " + (-h*.3) + " " + (-w*1.1) + " " + (-h*.86) + " " + (-w*.38) + " " + (-h) +
+           " Q0 " + (-h*1.1) + " " + (w*.38) + " " + (-h) +
+           " C" + (w*1.1) + " " + (-h*.86) + " " + w + " " + (-h*.3) + " 0 0Z";
+  }
+  var rings = [
+    { n: 9, h: 178, w: 64, c: "#F7CDD8", s: "#EBA9BB", r: 0 },
+    { n: 8, h: 148, w: 58, c: "#F2B1C4", s: "#E391A9", r: 20 },
+    { n: 7, h: 118, w: 50, c: "#EA93AE", s: "#DB7595", r: 8 },
+    { n: 6, h: 88,  w: 42, c: "#E07696", s: "#CF5C80", r: 26 },
+    { n: 5, h: 58,  w: 32, c: "#D55A81", s: "#C14468", r: 4 },
+    { n: 4, h: 30,  w: 20, c: "#C9456F", s: "#B03860", r: 30 }
+  ];
+  var ringsG = document.getElementById("rings");
+  rings.forEach(function (ring) {
+    var g = el("g", {}, ringsG);
+    for (var k = 0; k < ring.n; k++) {
+      var p = el("g", { transform: "rotate(" + (ring.r + 360 / ring.n * k) + ")" }, g);
+      el("path", { d: petalPath(ring.w, ring.h), fill: ring.c, stroke: ring.s, "stroke-width": 1.2, "stroke-linejoin": "round" }, p);
+      el("path", { d: "M0 -" + ring.h*.25 + " Q0 -" + ring.h*.55 + " 0 -" + ring.h*.9, stroke: ring.s, "stroke-opacity": .45, fill: "none", "stroke-linecap": "round" }, p);
+    }
+  });
+
+  // Tulip (mọc lên khi mở quà)
+  var tulips = [
+    { x: 10,  h: 170, t1: "#F4A9BD", t2: "#E98BA6" },
+    { x: 92,  h: 150, t1: "#F9D3DD", t2: "#F0AFC1" },
+    { x: 172, h: 190, t1: "#E57F9E", t2: "#D9628A" },
+    { x: 256, h: 156, t1: "#FCE3E9", t2: "#F4BECD" },
+    { x: 336, h: 178, t1: "#D9628A", t2: "#C9456F" }
+  ];
+  var row = document.getElementById("row");
+  tulips.forEach(function (t, i) {
+    var g = el("g", { "class": "tulip", style: "--i:" + i }, row);
+    var u = el("use", { href: "#tulip", x: t.x, y: 200 - t.h, width: t.h * 60 / 220, height: t.h }, g);
+    u.style.setProperty("--t1", t.t1);
+    u.style.setProperty("--t2", t.t2);
+  });
+
+  // Nút mở quà
+  var btn = document.getElementById("open");
+  var box = document.getElementById("surprise");
+  btn.addEventListener("click", function () {
+    btn.setAttribute("aria-expanded", "true");
+    box.classList.add("show");
+    setTimeout(function () { box.scrollIntoView({ behavior: "smooth", block: "center" }); }, 100);
+  });
+
+  // Cánh hoa rơi nhẹ
+  var holder = document.getElementById("petals");
+  for (var i = 0; i < 16; i++) {
+    var d = document.createElement("span");
+    d.className = "petal";
+    d.style.left = (Math.random() * 100) + "vw";
+    d.style.setProperty("--dx", (Math.random() * 160 - 80) + "px");
+    d.style.animationDuration = (10 + Math.random() * 10) + "s";
+    d.style.animationDelay = (-Math.random() * 18) + "s";
+    d.style.transform = "scale(" + (0.6 + Math.random() * 0.8) + ")";
+    holder.appendChild(d);
+  }
+</script>
+</body>
+</html>
